@@ -1,0 +1,105 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{natbib}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\title{Clustering Countries Based on the World Happiness Report Using the KDD Process and DBSCAN}
+\author{Apurva Karne}
+\date{October 2024}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This paper presents an in-depth application of the \textbf{KDD (Knowledge Discovery in Databases)} process to the \textbf{World Happiness Report} dataset, with the aim of clustering countries based on their happiness indicators. Using the \textbf{DBSCAN (Density-Based Spatial Clustering of Applications with Noise)} algorithm, I identify meaningful clusters and detect outliers. The analysis follows the KDD process from data cleaning to pattern evaluation, providing insights into the factors contributing to global happiness. Additionally, \textbf{PCA (Principal Component Analysis)} is used to visualize the clustering in two dimensions for better interpretability. The results demonstrate distinct patterns of happiness among countries and reveal outliers that require special attention.
+\end{abstract}
+
+\section{Introduction}
+Understanding happiness across countries is a critical aspect of global research, allowing policymakers to address issues that affect well-being. The \textbf{World Happiness Report} contains various indicators, such as \textbf{GDP per capita}, \textbf{social support}, and \textbf{life expectancy}, making it a valuable dataset for clustering analysis. In this paper, I apply the \textbf{KDD} process to uncover meaningful patterns and clusters using the \textbf{DBSCAN} algorithm, a powerful clustering method that handles outliers effectively.
+
+\section{The KDD Process}
+
+\subsection{Data Cleaning}
+The first step involved handling missing values to ensure a clean dataset for analysis. Missing data was handled by imputing the mean for numerical columns, ensuring that the overall structure of the dataset remained intact.
+
+\subsection{Data Integration}
+As this analysis focused on the \textbf{World Happiness Report} dataset, no additional integration from external sources was required. All necessary indicators were included within the dataset.
+
+\subsection{Data Selection}
+For clustering, only numerical features related to happiness were selected. These include:
+\begin{itemize}
+    \item \textbf{GDP per capita}
+    \item \textbf{Social support}
+    \item \textbf{Life expectancy}
+    \item \textbf{Freedom to make life choices}
+    \item \textbf{Generosity}
+    \item \textbf{Perceptions of corruption}
+\end{itemize}
+
+\subsection{Data Transformation}
+Data transformation was performed by standardizing the numeric features using \textbf{StandardScaler}, ensuring equal contribution from each variable during clustering.
+
+\subsection{Data Mining with DBSCAN}
+The \textbf{DBSCAN} algorithm was applied to the transformed data to discover clusters of countries that share similar happiness profiles. The following steps were followed:
+\begin{itemize}
+    \item \textbf{Initial Clustering}: Default DBSCAN parameters (\texttt{eps=1.0}, \texttt{min\_samples=5}) were used, which identified three clusters and a large number of outliers.
+    \item \textbf{Refinement}: To improve cluster quality, \texttt{eps} was increased to 1.5 and \texttt{min\_samples} to 10. This reduced the number of outliers and provided more meaningful clusters.
+\end{itemize}
+
+\section{Data Analysis and Results}
+\subsection{Handling Class Imbalance and Clustering}
+The DBSCAN algorithm effectively handles imbalanced datasets by identifying meaningful clusters while treating distant points as outliers. After refining the model:
+\begin{itemize}
+    \item \textbf{Number of Clusters}: 3 well-defined clusters.
+    \item \textbf{Number of Outliers}: 124 outliers detected.
+\end{itemize}
+
+To evaluate the effectiveness of various clustering algorithms, I compared the Silhouette Scores of \textbf{KMeans}, \textbf{Agglomerative Clustering}, and \textbf{DBSCAN}. The comparison between the models shows that DBSCAN outperforms both KMeans and Agglomerative Clustering in terms of the Silhouette Score, as seen in the figure below.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{./images/Comparing.png}  
+    \caption{Comparison of Clustering Models (Silhouette Score)}
+\end{figure}
+
+\subsection{Silhouette Score Evaluation}
+To evaluate the quality of the clustering, the \textbf{Silhouette Score} was calculated. A score of \textbf{0.547} was obtained, indicating that the clusters were well-separated and meaningful.
+
+\subsection{Principal Component Analysis (PCA) for Visualization}
+To visualize the clusters, \textbf{PCA} was applied to reduce the data to two dimensions. This provided a clear visual representation of the country groupings and outliers, as shown in the figure below.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./images/PCA-DBScan.png}
+    \caption{PCA Projection of DBSCAN Clusters}
+\end{figure}
+
+\section{Discussion}
+The clusters identified by DBSCAN reveal patterns in global happiness:
+\begin{itemize}
+    \item \textbf{Cluster 1}: Countries with high GDP per capita and social support, such as Norway, Denmark, and Finland.
+    \item \textbf{Cluster 2}: Countries with moderate levels of happiness, characterized by lower GDP but strong social support systems.
+    \item \textbf{Cluster 3}: Outliers, including countries facing political or economic turmoil, such as Syria and Venezuela.
+\end{itemize}
+
+\section{Conclusion}
+This analysis demonstrates the power of the \textbf{KDD process} in discovering hidden patterns in the \textbf{World Happiness Report} dataset. By applying \textbf{DBSCAN}, I successfully identified clusters of countries with similar happiness profiles and detected significant outliers. The use of \textbf{PCA} for visualization enhanced my ability to interpret the clustering results. Future work could involve exploring additional clustering algorithms or incorporating external datasets for a more comprehensive analysis.
+
+\section{Acknowledgments}
+I would like to thank Kaggle for providing the dataset, and open-source tools such as Python, Scikit-learn, and DBSCAN for enabling this analysis.
+
+\begin{thebibliography}{9}
+\bibitem{dbscan} Schubert, E., Sander, J., Ester, M., Kriegel, H.-P., Xu, X. (2017). \emph{DBSCAN Revisited, Revisited: Why and How You Should (Still) Use DBSCAN}. ACM Transactions on Database Systems (TODS), 42(3), 1-21. DOI: 10.1145/3068335.
+
+\bibitem{pca} Jolliffe, I. T., Cadima, J. (2016). \emph{Principal component analysis: A review and recent developments}. Philosophical Transactions of the Royal Society A: Mathematical, Physical and Engineering Sciences, 374(2065). DOI: 10.1098/rsta.2015.0202.
+
+\bibitem{kdd} Dey, A.,  Chandrasekaran, M. (2019). \emph{Knowledge Discovery in Databases (KDD): Applications in Healthcare}. Springer, DOI: 10.1007/978-3-030-21267-7.
+
+\end{thebibliography}
+
+\end{document}
